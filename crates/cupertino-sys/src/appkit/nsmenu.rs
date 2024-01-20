@@ -1,7 +1,7 @@
 //! A wrapper for NSMenu
 
-use objc2::runtime::NSObject;
 use objc2::rc::Id;
+use objc2::runtime::NSObject;
 
 use crate::foundation::nsstring::NSString;
 
@@ -12,7 +12,10 @@ pub struct NSMenu(Id<NSObject>);
 
 impl NSMenu {
     /// Create a new NSMenu
-    pub fn new<T>(title: T) -> NSMenu where T: Into<NSString> {
+    pub fn new<T>(title: T) -> NSMenu
+    where
+        T: Into<NSString>,
+    {
         let menu = unsafe { msg_send_id![class!(NSMenu), alloc] };
         let menu = unsafe { msg_send_id![menu, initWithTitle:title.into().as_ref().as_ref()] };
         NSMenu(menu)
@@ -29,9 +32,8 @@ impl NSMenu {
     }
 }
 
-
 impl From<Id<NSObject>> for NSMenu {
-    fn from(nsstring: Id<NSObject>) -> Self {
-        NSMenu(nsstring)
+    fn from(ptr: Id<NSObject>) -> Self {
+        NSMenu(ptr)
     }
 }

@@ -5,39 +5,40 @@ struct OpaqueData {
     _private: [u8; 0],
 }
 
+#[doc(hidden)]
 #[repr(transparent)]
-pub struct Sel {
-    _ptr: OpaqueData
+pub struct DontUseNilSel {
+    _ptr: OpaqueData,
 }
 
-unsafe impl Encode for Sel {
+unsafe impl Encode for DontUseNilSel {
     const ENCODING: Encoding = Encoding::Sel;
 }
 
+#[doc(hidden)]
 #[repr(transparent)]
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub struct NSObject {
-    _ptr: OpaqueData
+pub struct DontUseObjectSel {
+    _ptr: OpaqueData,
 }
 
-unsafe impl Encode for NSObject {
+unsafe impl Encode for DontUseObjectSel {
     const ENCODING: Encoding = Encoding::Object;
 }
 
-pub fn sel_nil() -> Sel {
+pub fn sel_nil() -> DontUseNilSel {
     // Create an OpaqueData from a pointer to a null pointer
     let ptr = std::ptr::null::<*const u8>();
     let ptr = ptr as *const OpaqueData;
 
     // Create a Sel from the OpaqueData
-    unsafe { Sel { _ptr: *ptr } }
+    unsafe { DontUseNilSel { _ptr: *ptr } }
 }
 
-pub fn object_nil() -> NSObject {
+pub fn object_nil() -> DontUseObjectSel {
     // Create an OpaqueData from a pointer to a null pointer
     let ptr = std::ptr::null::<*const u8>();
     let ptr = ptr as *const OpaqueData;
 
     // Create a Sel from the OpaqueData
-    unsafe { NSObject { _ptr: *ptr } }
+    unsafe { DontUseObjectSel { _ptr: *ptr } }
 }

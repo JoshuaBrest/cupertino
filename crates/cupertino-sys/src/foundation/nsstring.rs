@@ -2,15 +2,18 @@
 use std::ffi::c_void;
 use std::fmt::{Debug, Display};
 
-use objc2::runtime::NSObject;
 use objc2::rc::Id;
+use objc2::runtime::NSObject;
 
 /// A struct representing an NSString
 pub struct NSString(Id<NSObject>);
 
 impl NSString {
     /// Create a new NSString from a Rust string
-    pub fn new<T>(string: T)  -> NSString where T: Into<String> {
+    pub fn new<T>(string: T) -> NSString
+    where
+        T: Into<String>,
+    {
         let string = string.into();
         let nsstring = NSString::from_str(string);
         nsstring
@@ -20,7 +23,9 @@ impl NSString {
     pub fn from_str(string: String) -> NSString {
         let string_ref: *const c_void = string.as_ptr() as *const c_void;
         let nsstring = unsafe { msg_send_id![class!(NSString), alloc] };
-        let nsstring = unsafe { msg_send_id![nsstring, initWithBytes:string_ref length:string.len() encoding:4 as usize] };
+        let nsstring = unsafe {
+            msg_send_id![nsstring, initWithBytes:string_ref length:string.len() encoding:4 as usize]
+        };
 
         NSString(nsstring)
     }

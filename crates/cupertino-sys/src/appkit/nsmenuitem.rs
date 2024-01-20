@@ -1,8 +1,7 @@
 //! A wrapper for NSMenuItem
 
-
-use objc2::runtime::NSObject;
 use objc2::rc::Id;
+use objc2::runtime::{NSObject, Sel};
 
 use crate::core::sel_nil;
 use crate::foundation::nsstring::NSString;
@@ -12,11 +11,12 @@ use super::NSMenu;
 /// A struct representing an NSMenuItem
 pub struct NSMenuItem(Id<NSObject>);
 
-
 impl NSMenuItem {
     /// Create a new NSMenuItem
-    pub fn new<T>(title: T) -> NSMenuItem where T: Into<NSString> {
-
+    pub fn new<T>(title: T) -> NSMenuItem
+    where
+        T: Into<NSString>,
+    {
         let menu_item = unsafe { msg_send_id![class!(NSMenuItem), alloc] };
         let menu_item = unsafe {
             msg_send_id![
@@ -34,6 +34,11 @@ impl NSMenuItem {
         let _: () = unsafe { msg_send![&self.0, setSubmenu:submenu.as_ref().as_ref()] };
     }
 
+    /// Set the action
+    pub fn set_action(&self, action: Sel) {
+        let _: () = unsafe { msg_send![&self.0, setAction:action] };
+    }
+
     /// Get the reference
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
@@ -41,7 +46,7 @@ impl NSMenuItem {
 }
 
 impl From<Id<NSObject>> for NSMenuItem {
-    fn from(nsstring: Id<NSObject>) -> Self {
-        NSMenuItem(nsstring)
+    fn from(ptr: Id<NSObject>) -> Self {
+        NSMenuItem(ptr)
     }
 }

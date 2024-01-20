@@ -15,18 +15,19 @@ pub struct CGRect {
 impl CGRect {
     pub fn new(x: f64, y: f64, width: f64, height: f64) -> Self {
         CGRect {
-            origin: CGPoint { x, y },
-            size: CGSize { width, height },
+            origin: CGPoint::new(x, y),
+            size: CGSize::new(width, height),
+        }
+    }
+
+    pub fn zero() -> Self {
+        CGRect {
+            origin: CGPoint::zero(),
+            size: CGSize::zero(),
         }
     }
 }
 
 unsafe impl Encode for CGRect {
-    const ENCODING: Encoding = Encoding::Struct(
-        "CGRect",
-        &[
-            CGPoint::ENCODING,
-            CGSize::ENCODING,
-        ]
-    );
+    const ENCODING: Encoding = Encoding::Struct("CGRect", &[CGPoint::ENCODING, CGSize::ENCODING]);
 }

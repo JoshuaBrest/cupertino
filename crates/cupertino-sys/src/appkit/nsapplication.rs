@@ -1,8 +1,10 @@
 //! A wrapper for NSApplicaton
 
 use objc2::ffi::NSInteger;
-use objc2::runtime::{NSObject, Bool};
 use objc2::rc::Id;
+use objc2::runtime::{Bool, NSObject};
+
+use crate::core::object_nil;
 
 use super::nsmenu::NSMenu;
 
@@ -48,8 +50,12 @@ impl NSApplication {
     }
 
     /// Activate the application
-    pub fn activate<T>(&self, ignoring_other_apps: T) where T: Into<Bool> {
-        let _: () = unsafe { msg_send![&self.0, activateIgnoringOtherApps:ignoring_other_apps.into()] };
+    pub fn activate<T>(&self, ignoring_other_apps: T)
+    where
+        T: Into<Bool>,
+    {
+        let _: () =
+            unsafe { msg_send![&self.0, activateIgnoringOtherApps:ignoring_other_apps.into()] };
     }
 
     /// Run the application
@@ -65,7 +71,7 @@ impl NSApplication {
 
     /// Stop the application
     pub fn stop(&self) {
-        let _: () = unsafe { msg_send![&self.0, stop:&] };
+        let _: () = unsafe { msg_send![&self.0, stop:object_nil()] };
     }
 
     /// Get the reference
@@ -75,8 +81,8 @@ impl NSApplication {
 }
 
 impl From<Id<NSObject>> for NSApplication {
-    fn from(nsstring: Id<NSObject>) -> Self {
-        NSApplication(nsstring)
+    fn from(ptr: Id<NSObject>) -> Self {
+        NSApplication(ptr)
     }
 }
 

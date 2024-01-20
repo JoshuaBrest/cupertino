@@ -1,14 +1,32 @@
 #[link(name = "AppKit", kind = "framework")]
 extern "C" {}
 
-pub mod nsapplication;
+mod nsapplication;
 pub use nsapplication::{NSApplication, NSApplicationActivationPolicy};
 
-pub mod nsmenu;
+mod nsmenu;
 pub use nsmenu::NSMenu;
 
-pub mod nsmenuitem;
+mod nsmenuitem;
 pub use nsmenuitem::NSMenuItem;
 
-pub mod nswindow;
+mod nswindow;
 pub use nswindow::{NSWindow, NSWindowStyleMask};
+
+mod nsfont;
+pub use nsfont::{NSFont, NSFontWeight};
+
+mod nsview;
+pub use nsview::{NSView, NSViewLike};
+
+mod nstextfield;
+pub use nstextfield::NSTextField;
+
+mod nsbutton;
+pub use nsbutton::NSButton;
+
+mod nslayoutacnchor;
+pub use nslayoutacnchor::{NSLayoutAnchorLike, NSLayoutXAxisAnchor, NSLayoutYAxisAnchor};
+
+mod nslayoutconstraint;
+pub use nslayoutconstraint::NSLayoutConstraint;

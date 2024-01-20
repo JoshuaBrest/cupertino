@@ -1,12 +1,14 @@
 //! A wrapper for NSWIndow
 
 use objc2::ffi::NSUInteger;
-use objc2::runtime::NSObject;
 use objc2::rc::Id;
+use objc2::runtime::NSObject;
 
 use crate::core::cgrect::CGRect;
 use crate::core::object_nil;
 use crate::foundation::NSString;
+
+use super::NSView;
 
 #[repr(usize)]
 #[derive(Copy, Clone, Debug, PartialEq)]
@@ -33,7 +35,7 @@ pub struct NSWindow(Id<NSObject>);
 impl NSWindow {
     pub fn new(area: CGRect, style: Vec<NSWindowStyleMask>) -> NSWindow {
         let style: NSUInteger = style.iter().map(|s| *s as usize).sum();
-    
+
         let window = unsafe { msg_send_id![class!(NSWindow), alloc] };
         let window = unsafe {
             msg_send_id![
@@ -47,19 +49,31 @@ impl NSWindow {
         NSWindow(window)
     }
 
-    pub fn set_title<T>(&self, title: T) where T: Into<NSString> {
+    pub fn set_title<T>(&self, title: T)
+    where
+        T: Into<NSString>,
+    {
         let _: () = unsafe { msg_send![&self.0, setTitle:title.into().as_ref().as_ref()] };
+    }
+
+    /// Set the content view
+    pub fn set_content_view(&self, view: &NSView) {
+        let _: () = unsafe { msg_send![&self.0, setContentView:view.as_ref().as_ref()] };
     }
 
     /// Makae the window visible
     pub fn make_key_and_order_front(&self) {
         let _: () = unsafe { msg_send![&self.0, makeKeyAndOrderFront:object_nil()] };
     }
-    
+
+    /// Get the reference
+    pub fn as_ref(&self) -> &Id<NSObject> {
+        &self.0
+    }
 }
 
 impl From<Id<NSObject>> for NSWindow {
-    fn from(nsstring: Id<NSObject>) -> Self {
-        NSWindow(nsstring)
+    fn from(ptr: Id<NSObject>) -> Self {
+        NSWindow(ptr)
     }
 }
