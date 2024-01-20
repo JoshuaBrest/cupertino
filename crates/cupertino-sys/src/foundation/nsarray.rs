@@ -22,6 +22,7 @@ impl NSArray {
         count
     }
 
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

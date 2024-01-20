@@ -8,7 +8,7 @@ use crate::foundation::nsstring::NSString;
 
 use super::{NSFont, NSViewLike};
 
-/// A struct representing an NSTextField
+/// A struct representing a NSTextField
 pub struct NSTextField(Id<NSObject>);
 
 impl NSTextField {
@@ -69,6 +69,7 @@ impl NSTextField {
     }
 
     /// Get the reference
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

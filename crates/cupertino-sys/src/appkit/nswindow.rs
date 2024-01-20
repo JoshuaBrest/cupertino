@@ -29,7 +29,7 @@ pub enum NSWindowStyleMask {
     HudWindow = 1 << 13,
 }
 
-/// A struct representing an NSWindow
+/// A struct representing a NSWindow
 pub struct NSWindow(Id<NSObject>);
 
 impl NSWindow {
@@ -67,6 +67,7 @@ impl NSWindow {
     }
 
     /// Get the reference
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

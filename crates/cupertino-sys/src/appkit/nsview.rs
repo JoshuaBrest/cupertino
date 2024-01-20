@@ -5,7 +5,7 @@ use objc2::runtime::NSObject;
 
 use crate::core::CGRect;
 
-/// A struct representing an NSView
+/// A struct representing a NSView
 pub struct NSView(Id<NSObject>);
 
 pub trait NSViewLike {
@@ -24,6 +24,12 @@ pub trait NSViewLike {
         let superview: Option<Id<NSObject>> = unsafe { msg_send_id![self.as_ref(), superview] };
         superview.map(|s| NSView(s))
     }
+
+    #[inline(always)]
+    fn disable_auto_layout(&self) {
+        let _: () =
+            unsafe { msg_send![self.as_ref(), setTranslatesAutoresizingMaskIntoConstraints:false] };
+    }
 }
 
 impl NSView {
@@ -36,6 +42,7 @@ impl NSView {
     }
 
     /// Get the reference
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

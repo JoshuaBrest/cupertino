@@ -18,7 +18,7 @@ pub enum NSApplicationActivationPolicy {
     Prohibited,
 }
 
-/// A struct representing an NSApplication
+/// A struct representing a NSApplication
 pub struct NSApplication(Id<NSObject>);
 
 impl NSApplication {
@@ -75,6 +75,7 @@ impl NSApplication {
     }
 
     /// Get the reference
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

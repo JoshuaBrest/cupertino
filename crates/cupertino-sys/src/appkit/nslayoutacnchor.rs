@@ -1,4 +1,4 @@
-//! A wrapper for NSLayoutXAxisAnchor, NSLayoutYAxisAnchor, and NSLayoutAxisAnchor
+//! A wrapper for NSLayoutXAxisAnchor, NSLayoutYAxisAnchor, NSLayoutDimension, and NSLayoutAxisAnchor
 
 use objc2::{rc::Id, runtime::NSObject};
 
@@ -6,52 +6,103 @@ use crate::core::CGFloat;
 
 use super::{NSLayoutConstraint, NSViewLike};
 
-/// A trait representing an NSLayoutAnchor
+/// A trait representing a NSLayoutAnchor
 pub trait NSLayoutAnchorLike {
     /// Returns the anchor's ref
     fn as_ref(&self) -> &Id<NSObject>;
 
-    /// Constrains the anchor to a given anchor given another anchor with an offset
-    fn anchor(&self, other: &Self, offset: CGFloat) -> NSLayoutConstraint {
+    /// Constrains the anchor to a given anchor given another anchor
+    fn anchor_eq(&self, other: &Self) -> NSLayoutConstraint {
         let data: Id<NSObject> = unsafe {
             msg_send_id![
                 self.as_ref(),
                 constraintEqualToAnchor: other.as_ref().as_ref()
-                constant: offset
             ]
         };
 
         NSLayoutConstraint::from(data)
     }
 
-    /// Constrains the anchor to be greater than or equal to another anchor with an offset
-    fn anchor_gt_or_equal(&self, other: &Self, offset: CGFloat) -> NSLayoutConstraint {
+    /// Constrains the anchor to be greater than or equal to another anchor
+    fn anchor_gt_or_eq(&self, other: &Self) -> NSLayoutConstraint {
         let data: Id<NSObject> = unsafe {
             msg_send_id![
                 self.as_ref(),
                 constraintGreaterThanOrEqualToAnchor: other.as_ref().as_ref()
-                constant: offset
             ]
         };
 
         NSLayoutConstraint::from(data)
     }
 
-    /// Constrains the anchor to be less than or equal to another anchor with an offset
-    fn anchor_lt_or_equal(&self, other: &Self, offset: CGFloat) -> NSLayoutConstraint {
+    /// Constrains the anchor to be less than or equal to another anchor
+    fn anchor_lt_or_eq(&self, other: &Self) -> NSLayoutConstraint {
         let data: Id<NSObject> = unsafe {
             msg_send_id![
                 self.as_ref(),
                 constraintLessThanOrEqualToAnchor: other.as_ref().as_ref()
-                constant: offset
             ]
         };
+
+        NSLayoutConstraint::from(data)
+    }
+
+    /// Constrains the anchor to be equal to a constant
+    fn constant_eq(&self, constant: CGFloat) -> NSLayoutConstraint {
+        let data: Id<NSObject> =
+            unsafe { msg_send_id![self.as_ref(), constraintEqualToConstant: constant] };
+
+        NSLayoutConstraint::from(data)
+    }
+
+    /// Constrains the anchor to be greater than or equal to a constant
+    fn constant_gt_or_eq(&self, constant: CGFloat) -> NSLayoutConstraint {
+        let data: Id<NSObject> = unsafe {
+            msg_send_id![self.as_ref(), constraintGreaterThanOrEqualToConstant: constant]
+        };
+
+        NSLayoutConstraint::from(data)
+    }
+
+    /// Constrains the anchor to be less than or equal to a constant
+    fn constant_lt_or_eq(&self, constant: CGFloat) -> NSLayoutConstraint {
+        let data: Id<NSObject> =
+            unsafe { msg_send_id![self.as_ref(), constraintLessThanOrEqualToConstant: constant] };
 
         NSLayoutConstraint::from(data)
     }
 }
 
-/// A struct representing an NSLayoutYAxisAnchor
+/// This struct doesn't actually exist but is a good way to represent a NSLayoutSizeAnchor
+pub struct NSLayoutDimension(Id<NSObject>);
+
+impl NSLayoutDimension {
+    /// Returns a new NSLayoutAnchor (Width)
+    pub fn width(view: &impl NSViewLike) -> Self {
+        let anchor = unsafe { msg_send_id![view.as_ref(), widthAnchor] };
+        Self(anchor)
+    }
+
+    /// Returns a new NSLayoutAnchor (Height)
+    pub fn height(view: &impl NSViewLike) -> Self {
+        let anchor = unsafe { msg_send_id![view.as_ref(), heightAnchor] };
+        Self(anchor)
+    }
+}
+
+impl NSLayoutAnchorLike for NSLayoutDimension {
+    fn as_ref(&self) -> &Id<NSObject> {
+        &self.0
+    }
+}
+
+impl From<Id<NSObject>> for NSLayoutDimension {
+    fn from(anchor: Id<NSObject>) -> Self {
+        Self(anchor)
+    }
+}
+
+/// A struct representing a NSLayoutYAxisAnchor
 pub struct NSLayoutYAxisAnchor(Id<NSObject>);
 
 impl NSLayoutYAxisAnchor {
@@ -86,7 +137,7 @@ impl From<Id<NSObject>> for NSLayoutYAxisAnchor {
     }
 }
 
-/// A struct representing an NSLayoutXAxisAnchor
+/// A struct representing a NSLayoutXAxisAnchor
 pub struct NSLayoutXAxisAnchor(Id<NSObject>);
 
 impl NSLayoutXAxisAnchor {

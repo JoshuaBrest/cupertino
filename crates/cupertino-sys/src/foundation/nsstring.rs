@@ -5,7 +5,7 @@ use std::fmt::{Debug, Display};
 use objc2::rc::Id;
 use objc2::runtime::NSObject;
 
-/// A struct representing an NSString
+/// A struct representing a NSString
 pub struct NSString(Id<NSObject>);
 
 impl NSString {
@@ -45,6 +45,7 @@ impl NSString {
     }
 
     /// Get the ref
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

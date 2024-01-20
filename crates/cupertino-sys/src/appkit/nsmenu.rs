@@ -7,7 +7,7 @@ use crate::foundation::nsstring::NSString;
 
 use super::NSMenuItem;
 
-/// A struct representing an NSMenu
+/// A struct representing a NSMenu
 pub struct NSMenu(Id<NSObject>);
 
 impl NSMenu {
@@ -27,6 +27,7 @@ impl NSMenu {
     }
 
     /// Get the reference
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

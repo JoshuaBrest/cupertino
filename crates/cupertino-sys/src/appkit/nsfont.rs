@@ -2,15 +2,12 @@
 
 use objc2::{
     rc::{Allocated, Id},
-    runtime::{NSObject, Sel},
+    runtime::NSObject,
 };
 
-use crate::{
-    core::{sel_nil, CGFloat},
-    foundation::NSString,
-};
+use crate::core::CGFloat;
 
-/// A struct representing an NSFont
+/// A struct representing a NSFont
 pub struct NSFont(Id<NSObject>);
 
 #[derive(Copy, Clone, Debug)]
@@ -59,6 +56,7 @@ impl NSFont {
     }
 
     /// Get the reference
+    #[inline(always)]
     pub fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }
