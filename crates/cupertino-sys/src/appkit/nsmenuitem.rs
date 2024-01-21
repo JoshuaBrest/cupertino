@@ -22,8 +22,6 @@ impl NSMenuItem {
             msg_send_id![
                 menu_item,
                 initWithTitle:title.into().as_ref().as_ref()
-                action:sel_nil()
-                keyEquivalent:NSString::new("").as_ref().as_ref()
             ]
         };
         NSMenuItem(menu_item)
