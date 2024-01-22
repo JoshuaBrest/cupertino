@@ -18,7 +18,7 @@ impl NSButton {
     }
 
     /// Set the title
-    pub fn set_title<T>(&self, title: &NSString) {
+    pub fn set_title(&self, title: &NSString) {
         let _: () = unsafe { msg_send![&self.0, setTitle:title.as_ref().as_ref()] };
     }
 

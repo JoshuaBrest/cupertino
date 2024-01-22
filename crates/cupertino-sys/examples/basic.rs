@@ -32,7 +32,7 @@ fn main() {
     let about_menu_item = NSMenuItem::new();
     let quit_menu_item = NSMenuItem::new();
 
-    about_menu_item.set_title(&NSString::new("About"));
+    about_menu_item.set_title(&NSString::new("About basic"));
     about_menu_item.set_action(sel!(orderFrontStandardAboutPanel:));
     app_menu.add_item(&about_menu_item);
 
