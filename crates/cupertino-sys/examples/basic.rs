@@ -54,8 +54,6 @@ fn main() {
     let main_view_right = NSLayoutXAxisAnchor::right(&main_view);
     let main_view_top = NSLayoutYAxisAnchor::top(&main_view);
     let main_view_bottom = NSLayoutYAxisAnchor::bottom(&main_view);
-    let main_view_width = NSLayoutDimension::width(&main_view);
-    let main_view_height = NSLayoutDimension::height(&main_view);
 
     // Create a textbox
     let heading = NSTextField::new(CGRect::zero());
