@@ -17,6 +17,12 @@ impl NSMenuItem {
         NSMenuItem(menu_item)
     }
 
+    /// Creates a new NSMenuItem as a separator
+    pub fn new_separator() -> Self {
+        let menu_item = unsafe { msg_send_id![class!(NSMenuItem), separatorItem] };
+        NSMenuItem(menu_item)
+    }
+
     /// Set the title
     pub fn set_title(&self, title: &NSString) {
         let _: () = unsafe { msg_send![&self.0, setTitle:title.as_ref().as_ref()] };

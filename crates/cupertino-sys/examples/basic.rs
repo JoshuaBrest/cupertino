@@ -1,9 +1,8 @@
 use cupertino_sys::{
     appkit::{
         NSApplication, NSApplicationActivationPolicy, NSButton, NSFont, NSFontWeight,
-        NSLayoutAnchorLike, NSLayoutConstraint, NSLayoutDimension, NSLayoutXAxisAnchor,
-        NSLayoutYAxisAnchor, NSMenu, NSMenuItem, NSTextField, NSView, NSViewLike, NSWindow,
-        NSWindowStyleMask,
+        NSLayoutAnchorLike, NSLayoutConstraint, NSLayoutXAxisAnchor, NSLayoutYAxisAnchor, NSMenu,
+        NSMenuItem, NSTextField, NSView, NSViewLike, NSWindow, NSWindowStyleMask,
     },
     core::CGRect,
     foundation::NSString,
@@ -29,12 +28,16 @@ fn main() {
     let main_menu = NSMenu::new();
     let app_menu_item = NSMenuItem::new();
     let app_menu = NSMenu::new();
+
     let about_menu_item = NSMenuItem::new();
+    let separator_menu_item = NSMenuItem::new_separator();
     let quit_menu_item = NSMenuItem::new();
 
     about_menu_item.set_title(&NSString::new("About basic"));
     about_menu_item.set_action(sel!(orderFrontStandardAboutPanel:));
     app_menu.add_item(&about_menu_item);
+
+    app_menu.add_item(&separator_menu_item);
 
     quit_menu_item.set_title(&NSString::new("Quit"));
     quit_menu_item.set_action(sel!(terminate:));
