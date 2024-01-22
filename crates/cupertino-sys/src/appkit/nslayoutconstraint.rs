@@ -19,24 +19,18 @@ impl NSLayoutConstraint {
     }
 
     /// Set the priority of the constraint.
-    pub fn priority(self, priority: CGFloat) -> Self {
+    pub fn set_priority(&self, priority: CGFloat) {
         let _: () = unsafe { msg_send![self.0.as_ref(), setPriority:priority] };
-
-        self
     }
 
     /// Set the constant (offset) of the constraint.
-    pub fn constant(self, constant: CGFloat) -> Self {
+    pub fn set_constant(&self, constant: CGFloat) {
         let _: () = unsafe { msg_send![self.0.as_ref(), setConstant:constant] };
-
-        self
     }
 
     /// Set the multiplier of the constraint.
-    pub fn multiplier(self, multiplier: CGFloat) -> Self {
+    pub fn set_multiplier(&self, multiplier: CGFloat) {
         let _: () = unsafe { msg_send![self.0.as_ref(), setMultiplier:multiplier] };
-
-        self
     }
 
     /// Activate multiple constraints at once.

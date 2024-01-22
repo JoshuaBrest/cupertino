@@ -18,11 +18,8 @@ impl NSButton {
     }
 
     /// Set the title
-    pub fn set_title<T>(&self, title: T)
-    where
-        T: Into<NSString>,
-    {
-        let _: () = unsafe { msg_send![&self.0, setTitle:title.into().as_ref().as_ref()] };
+    pub fn set_title<T>(&self, title: &NSString) {
+        let _: () = unsafe { msg_send![&self.0, setTitle:title.as_ref().as_ref()] };
     }
 
     /// Set the action

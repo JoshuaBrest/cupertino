@@ -30,22 +30,15 @@ impl NSTextField {
     }
 
     /// Set the placeholder string
-    pub fn set_placeholder_string<T>(&self, placeholder_string: T)
-    where
-        T: Into<NSString>,
-    {
+    pub fn set_placeholder_string(&self, placeholder_string: &NSString) {
         let _: () = unsafe {
-            msg_send![&self.0, setPlaceholderString:placeholder_string.into().as_ref().as_ref()]
+            msg_send![&self.0, setPlaceholderString:placeholder_string.as_ref().as_ref()]
         };
     }
 
     /// Set string value
-    pub fn set_string_value<T>(&self, string_value: T)
-    where
-        T: Into<NSString>,
-    {
-        let _: () =
-            unsafe { msg_send![&self.0, setStringValue:string_value.into().as_ref().as_ref()] };
+    pub fn set_string_value(&self, string_value: &NSString) {
+        let _: () = unsafe { msg_send![&self.0, setStringValue:string_value.as_ref().as_ref()] };
     }
 
     /// Draws background

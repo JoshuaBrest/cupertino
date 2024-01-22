@@ -6,9 +6,7 @@ struct OpaqueData {
 }
 
 pub fn object_nil() -> *mut NSObject {
-    let nil: *mut NSObject = unsafe {
-        std::mem::transmute(0 as u64)
-    };
+    let nil: *mut NSObject = unsafe { std::mem::transmute(0 as u64) };
 
     nil
 }

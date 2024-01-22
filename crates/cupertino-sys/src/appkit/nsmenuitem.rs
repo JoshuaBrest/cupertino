@@ -18,11 +18,8 @@ impl NSMenuItem {
     }
 
     /// Set the title
-    pub fn set_title<T>(&self, title: T)
-    where
-        T: Into<NSString>,
-    {
-        let _: () = unsafe { msg_send![&self.0, setTitle:title.into().as_ref().as_ref()] };
+    pub fn set_title(&self, title: &NSString) {
+        let _: () = unsafe { msg_send![&self.0, setTitle:title.as_ref().as_ref()] };
     }
 
     /// Set a submenu
@@ -36,15 +33,10 @@ impl NSMenuItem {
     }
 
     /// Set the key equivalent
-    pub fn set_key_equivalent<T>(&self, key_equivalent: T)
-    where
-        T: Into<NSString>,
-    {
-        let _: () = unsafe {
-            msg_send![&self.0, setKeyEquivalent:key_equivalent.into().as_ref().as_ref()]
-        };
+    pub fn set_key_equivalent(&self, key_equivalent: &NSString) {
+        let _: () =
+            unsafe { msg_send![&self.0, setKeyEquivalent:key_equivalent.as_ref().as_ref()] };
     }
-
 
     /// Get the reference
     #[inline(always)]
