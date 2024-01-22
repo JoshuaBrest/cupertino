@@ -12,13 +12,15 @@ pub struct NSMenu(Id<NSObject>);
 
 impl NSMenu {
     /// Create a new NSMenu
-    pub fn new<T>(title: T) -> NSMenu
-    where
-        T: Into<NSString>,
-    {
+    pub fn new() -> Self {
         let menu = unsafe { msg_send_id![class!(NSMenu), alloc] };
-        let menu = unsafe { msg_send_id![menu, initWithTitle:title.into().as_ref().as_ref()] };
+        let menu = unsafe { msg_send_id![menu, init] };
         NSMenu(menu)
+    }
+
+    /// Set the title of the menu
+    pub fn add_title(&self, title: &NSString) {
+        let _: () = unsafe { msg_send![&self.0, setTitle:title.as_ref().as_ref()] };
     }
 
     /// Add an item to the menu

@@ -4,7 +4,7 @@ use objc2::ffi::NSInteger;
 use objc2::rc::Id;
 use objc2::runtime::{Bool, NSObject};
 
-use crate::core::object_nil;
+// use crate::core::object_nil;
 
 use super::nsmenu::NSMenu;
 
@@ -71,7 +71,7 @@ impl NSApplication {
 
     /// Stop the application
     pub fn stop(&self) {
-        let _: () = unsafe { msg_send![&self.0, stop:object_nil()] };
+        let _: () = unsafe { msg_send![&self.0, stop:0 as u64] };
     }
 
     /// Get the reference

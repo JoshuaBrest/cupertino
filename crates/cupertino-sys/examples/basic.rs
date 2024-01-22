@@ -7,17 +7,17 @@ use cupertino_sys::{
     },
     core::CGRect,
 };
+use objc2::sel;
 
 fn main() {
     let app = NSApplication::new();
     app.set_activation_policy(NSApplicationActivationPolicy::Regular);
     let main_window = NSWindow::new(
         CGRect::new(0.0, 0.0, 800.0, 600.0),
-        vec![
-            NSWindowStyleMask::Titled,
-            NSWindowStyleMask::Closable,
-            NSWindowStyleMask::Resizable,
-        ],
+            NSWindowStyleMask::TITLED
+            | NSWindowStyleMask::CLOSABLE
+            | NSWindowStyleMask::MINIATURIZABLE
+            | NSWindowStyleMask::RESIZABLE
     );
     app.activate(true);
 
@@ -25,11 +25,21 @@ fn main() {
     main_window.make_key_and_order_front();
 
     // Menus
-    let main_menu = NSMenu::new("");
-    let app_menu_item = NSMenuItem::new("Hello");
-    let app_menu = NSMenu::new("Hello");
+    let main_menu = NSMenu::new();
+    let app_menu_item = NSMenuItem::new();
+    let app_menu = NSMenu::new();
+    let about_menu_item = NSMenuItem::new();
+    let quit_menu_item = NSMenuItem::new();
 
-    app_menu.add_item(&NSMenuItem::new("Hello"));
+    about_menu_item.set_title("About");
+    about_menu_item.set_action(sel!(orderFrontStandardAboutPanel:));
+    app_menu.add_item(&about_menu_item);
+
+    quit_menu_item.set_title("Quit");
+    quit_menu_item.set_action(sel!(terminate:));
+    quit_menu_item.set_key_equivalent("q");
+   
+    app_menu.add_item(&quit_menu_item);
     main_menu.add_item(&app_menu_item);
     app_menu_item.set_submenu(app_menu);
 
@@ -72,6 +82,7 @@ fn main() {
     text.set_editable(false);
     text.set_selectable(false);
     text.set_string_value("This AppKit applcation was built with Cupertino in Rust 🦀.");
+    // text.set_string_value("这本AppKit的APP是用Cupertino在Rust中构建的。");
     text.set_bezeled(false);
     text.set_bordered(false);
     text.set_font(NSFont::system_font(14.0, NSFontWeight::Regular));
@@ -103,8 +114,8 @@ fn main() {
         text_left.anchor_eq(&main_view_left).constant(20.0),
         text_right.anchor_eq(&main_view_right).constant(-20.0),
         text_top.anchor_eq(&heading_bottom).constant(20.0),
-        main_view_width.constant_eq(800.0),
-        main_view_height.constant_eq(600.0),
+        // main_view_width.constant_eq(800.0),
+        // main_view_height.constant_eq(600.0),
         button_right.anchor_eq(&main_view_right).constant(-20.0),
         button_bottom.anchor_eq(&main_view_bottom).constant(-20.0),
     ]);

@@ -3,28 +3,26 @@
 use objc2::rc::Id;
 use objc2::runtime::{NSObject, Sel};
 
-use crate::core::sel_nil;
 use crate::foundation::nsstring::NSString;
 
 use super::NSMenu;
-
 /// A struct representing a NSMenuItem
 pub struct NSMenuItem(Id<NSObject>);
 
 impl NSMenuItem {
     /// Create a new NSMenuItem
-    pub fn new<T>(title: T) -> NSMenuItem
+    pub fn new() -> Self {
+        let menu_item = unsafe { msg_send_id![class!(NSMenuItem), alloc] };
+        let menu_item = unsafe { msg_send_id![menu_item, init] };
+        NSMenuItem(menu_item)
+    }
+
+    /// Set the title
+    pub fn set_title<T>(&self, title: T)
     where
         T: Into<NSString>,
     {
-        let menu_item = unsafe { msg_send_id![class!(NSMenuItem), alloc] };
-        let menu_item = unsafe {
-            msg_send_id![
-                menu_item,
-                initWithTitle:title.into().as_ref().as_ref()
-            ]
-        };
-        NSMenuItem(menu_item)
+        let _: () = unsafe { msg_send![&self.0, setTitle:title.into().as_ref().as_ref()] };
     }
 
     /// Set a submenu
@@ -36,6 +34,17 @@ impl NSMenuItem {
     pub fn set_action(&self, action: Sel) {
         let _: () = unsafe { msg_send![&self.0, setAction:action] };
     }
+
+    /// Set the key equivalent
+    pub fn set_key_equivalent<T>(&self, key_equivalent: T)
+    where
+        T: Into<NSString>,
+    {
+        let _: () = unsafe {
+            msg_send![&self.0, setKeyEquivalent:key_equivalent.into().as_ref().as_ref()]
+        };
+    }
+
 
     /// Get the reference
     #[inline(always)]

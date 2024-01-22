@@ -10,31 +10,34 @@ use crate::foundation::NSString;
 
 use super::NSView;
 
-#[repr(usize)]
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub enum NSWindowStyleMask {
-    Borderless = 0,
-    Titled = 1 << 0,
-    Closable = 1 << 1,
-    Miniaturizable = 1 << 2,
-    Resizable = 1 << 3,
-    #[deprecated(note = "Deprecated in macOS 11.0")]
-    TexturedBackground = 1 << 8,
-    UnifiedTitleAndToolbar = 1 << 12,
-    Fullscreen = 1 << 14,
-    FullsizeContentView = 1 << 15,
-    UtilityWindow = 1 << 4,
-    DocModalWindow = 1 << 6,
-    NonactivatingPanel = 1 << 7,
-    HudWindow = 1 << 13,
+use bitflags::bitflags;
+
+bitflags! {
+    #[derive(Copy, Clone, Debug, PartialEq)]
+    pub struct NSWindowStyleMask: NSUInteger {
+        const BORDERLESS = 0;
+        const TITLED = 1 << 0;
+        const CLOSABLE = 1 << 1;
+        const MINIATURIZABLE = 1 << 2;
+        const RESIZABLE = 1 << 3;
+        #[deprecated(note = "Deprecated in macOS 11.0")]
+        const TEXTURED_BACKGROUND = 1 << 8;
+        const UNIFIED_TITLE_AND_TOOLBAR = 1 << 12;
+        const FULLSCREEN = 1 << 14;
+        const FULLSIZE_CONTENT_VIEW = 1 << 15;
+        const UTILITY_WINDOW = 1 << 4;
+        const DOC_MODAL_WINDOW = 1 << 6;
+        const NONACTIVATING_PANEL = 1 << 7;
+        const HUD_WINDOW = 1 << 13;
+    }
 }
 
 /// A struct representing a NSWindow
 pub struct NSWindow(Id<NSObject>);
 
 impl NSWindow {
-    pub fn new(area: CGRect, style: Vec<NSWindowStyleMask>) -> NSWindow {
-        let style: NSUInteger = style.iter().map(|s| *s as usize).sum();
+    pub fn new(area: CGRect, style: NSWindowStyleMask) -> NSWindow {
+        let style: NSUInteger = style.bits();
 
         let window = unsafe { msg_send_id![class!(NSWindow), alloc] };
         let window = unsafe {
@@ -42,7 +45,7 @@ impl NSWindow {
                 window,
                 initWithContentRect:area
                 styleMask:style
-                backing:2 as NSUInteger
+                backing:2 as u64
                 defer:false
             ]
         };

@@ -13,4 +13,4 @@ pub mod cgrect;
 pub use cgrect::CGRect;
 
 pub mod nil;
-pub use nil::{object_nil, sel_nil};
+pub use nil::object_nil;

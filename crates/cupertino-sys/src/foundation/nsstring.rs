@@ -57,12 +57,6 @@ impl From<Id<NSObject>> for NSString {
     }
 }
 
-impl From<NSString> for Id<NSObject> {
-    fn from(nsstring: NSString) -> Self {
-        nsstring.0
-    }
-}
-
 impl From<&str> for NSString {
     fn from(string: &str) -> Self {
         NSString::new(string)
