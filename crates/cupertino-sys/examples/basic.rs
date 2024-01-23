@@ -54,10 +54,10 @@ fn main() {
     main_window.set_content_view(&main_view);
 
     // Constraints
-    let main_view_left = NSLayoutXAxisAnchor::left(&main_view);
-    let main_view_right = NSLayoutXAxisAnchor::right(&main_view);
-    let main_view_top = NSLayoutYAxisAnchor::top(&main_view);
-    let main_view_bottom = NSLayoutYAxisAnchor::bottom(&main_view);
+    let main_view_left = NSLayoutXAxisAnchor::left(&main_view.safe_area_insets());
+    let main_view_right = NSLayoutXAxisAnchor::right(&main_view.safe_area_insets());
+    let main_view_top = NSLayoutYAxisAnchor::top(&main_view.safe_area_insets());
+    let main_view_bottom = NSLayoutYAxisAnchor::bottom(&main_view.safe_area_insets());
 
     // Create a textbox
     let heading = NSTextField::new(CGRect::zero());
@@ -72,10 +72,10 @@ fn main() {
     heading.disable_auto_layout();
 
     // Constraints
-    let heading_left = NSLayoutXAxisAnchor::left(&heading);
-    let heading_right = NSLayoutXAxisAnchor::right(&heading);
-    let heading_top = NSLayoutYAxisAnchor::top(&heading);
-    let heading_bottom = NSLayoutYAxisAnchor::bottom(&heading);
+    let heading_left = NSLayoutXAxisAnchor::left(&heading.safe_area_insets());
+    let heading_right = NSLayoutXAxisAnchor::right(&heading.safe_area_insets());
+    let heading_top = NSLayoutYAxisAnchor::top(&heading.safe_area_insets());
+    let heading_bottom = NSLayoutYAxisAnchor::bottom(&heading.safe_area_insets());
 
     // Create a textbox
     let text = NSTextField::new(CGRect::zero());
@@ -92,9 +92,9 @@ fn main() {
     text.disable_auto_layout();
 
     // Constraints
-    let text_left = NSLayoutXAxisAnchor::left(&text);
-    let text_right = NSLayoutXAxisAnchor::right(&text);
-    let text_top = NSLayoutYAxisAnchor::top(&text);
+    let text_left = NSLayoutXAxisAnchor::left(&text.safe_area_insets());
+    let text_right = NSLayoutXAxisAnchor::right(&text.safe_area_insets());
+    let text_top = NSLayoutYAxisAnchor::top(&text.safe_area_insets());
 
     // Create a button
     let button = NSButton::new(CGRect::zero());
@@ -102,8 +102,8 @@ fn main() {
     button.disable_auto_layout();
 
     // Constraints
-    let button_right = NSLayoutXAxisAnchor::right(&button);
-    let button_bottom = NSLayoutYAxisAnchor::bottom(&button);
+    let button_right = NSLayoutXAxisAnchor::right(&button.safe_area_insets());
+    let button_bottom = NSLayoutYAxisAnchor::bottom(&button.safe_area_insets());
 
     // Add the textbox to the main view
     main_view.add_subview(&button);

@@ -6,7 +6,7 @@ use objc2::runtime::NSObject;
 use crate::core::CGRect;
 use crate::foundation::nsstring::NSString;
 
-use super::{NSFont, NSViewLike};
+use super::{NSFont, NSViewLike, NSLayoutGuideLike};
 
 /// A struct representing a NSTextField
 pub struct NSTextField(Id<NSObject>);
@@ -75,6 +75,12 @@ impl From<Id<NSObject>> for NSTextField {
 }
 
 impl NSViewLike for NSTextField {
+    fn as_ref(&self) -> &Id<NSObject> {
+        &self.0
+    }
+}
+
+impl NSLayoutGuideLike for NSTextField {
     fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

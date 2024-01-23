@@ -4,7 +4,7 @@ use objc2::{rc::Id, runtime::NSObject};
 
 use crate::{core::CGRect, foundation::NSString};
 
-use super::NSViewLike;
+use super::{NSViewLike, NSLayoutGuideLike};
 
 /// A struct representing a NSButton
 pub struct NSButton(Id<NSObject>);
@@ -29,6 +29,12 @@ impl NSButton {
 }
 
 impl NSViewLike for NSButton {
+    fn as_ref(&self) -> &Id<NSObject> {
+        &self.0
+    }
+}
+
+impl NSLayoutGuideLike for NSButton {
     fn as_ref(&self) -> &Id<NSObject> {
         &self.0
     }

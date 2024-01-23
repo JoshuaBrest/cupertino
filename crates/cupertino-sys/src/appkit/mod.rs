@@ -27,7 +27,7 @@ pub use nsbutton::NSButton;
 
 mod nslayoutacnchor;
 pub use nslayoutacnchor::{
-    NSLayoutAnchorLike, NSLayoutDimension, NSLayoutXAxisAnchor, NSLayoutYAxisAnchor,
+    NSLayoutAnchorLike, NSLayoutGuideLike, NSLayoutSizeAnchor, NSLayoutXAxisAnchor, NSLayoutYAxisAnchor, NSLayoutGuide
 };
 
 mod nslayoutconstraint;

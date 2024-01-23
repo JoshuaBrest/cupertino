@@ -6,6 +6,8 @@ use objc2::runtime::{Bool, NSObject};
 
 // use crate::core::object_nil;
 
+use crate::core::object_nil;
+
 use super::nsmenu::NSMenu;
 
 /// The Options for how to activate the application
@@ -47,6 +49,11 @@ impl NSApplication {
             NSApplicationActivationPolicy::Prohibited => 2,
         } as NSInteger;
         let _: bool = unsafe { msg_send![&self.0, setActivationPolicy:policy] };
+    }
+
+    /// Shows the about panel
+    pub fn order_front_standard_about_panel(&self) {
+        let _: () = unsafe { msg_send![&self.0, orderFrontStandardAboutPanel:object_nil()] };
     }
 
     /// Activate the application

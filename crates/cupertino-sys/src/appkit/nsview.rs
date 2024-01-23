@@ -5,6 +5,8 @@ use objc2::runtime::NSObject;
 
 use crate::core::CGRect;
 
+use super::{NSLayoutGuideLike, NSLayoutGuide};
+
 /// A struct representing a NSView
 pub struct NSView(Id<NSObject>);
 
@@ -19,16 +21,19 @@ pub trait NSViewLike {
         let _: () = unsafe { msg_send![self.as_ref(), addSubview:subview.as_ref().as_ref()] };
     }
 
-    #[inline(always)]
     fn superview(&self) -> Option<NSView> {
         let superview: Option<Id<NSObject>> = unsafe { msg_send_id![self.as_ref(), superview] };
         superview.map(|s| NSView(s))
     }
 
-    #[inline(always)]
     fn disable_auto_layout(&self) {
         let _: () =
             unsafe { msg_send![self.as_ref(), setTranslatesAutoresizingMaskIntoConstraints:false] };
+    }
+
+    fn safe_area_insets(&self) -> NSLayoutGuide {
+        let guide: Id<NSObject> = unsafe { msg_send_id![self.as_ref(), safeAreaLayoutGuide] };
+        NSLayoutGuide::from(guide)
     }
 }
 
@@ -53,6 +58,13 @@ impl NSViewLike for NSView {
         &self.0
     }
 }
+
+impl NSLayoutGuideLike for NSView {
+    fn as_ref(&self) -> &Id<NSObject> {
+        &self.0
+    }
+}
+
 
 impl From<Id<NSObject>> for NSView {
     fn from(ptr: Id<NSObject>) -> Self {
