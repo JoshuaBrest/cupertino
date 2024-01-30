@@ -4,7 +4,7 @@ use cupertino_sys::{
         NSLayoutAnchorLike, NSLayoutConstraint, NSLayoutXAxisAnchor, NSLayoutYAxisAnchor, NSMenu,
         NSMenuItem, NSTextField, NSView, NSViewLike, NSWindow, NSWindowStyleMask,
     },
-    core::CGRect,
+    core::{CGRect, CGSize},
     foundation::NSString,
 };
 use objc2::sel;
@@ -22,6 +22,8 @@ fn main() {
     app.activate(true);
 
     main_window.set_title(&NSString::new("Hello, world!"));
+    main_window.set_min_size(CGSize::new(400.0, 300.0));
+    main_window.set_max_size(CGSize::new(800.0, 600.0));
     main_window.make_key_and_order_front();
 
     // Menus

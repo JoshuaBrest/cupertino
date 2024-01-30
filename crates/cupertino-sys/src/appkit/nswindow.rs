@@ -5,7 +5,7 @@ use objc2::rc::Id;
 use objc2::runtime::NSObject;
 
 use crate::core::cgrect::CGRect;
-use crate::core::object_nil;
+use crate::core::{object_nil, CGSize};
 use crate::foundation::NSString;
 
 use super::NSView;
@@ -54,6 +54,14 @@ impl NSWindow {
 
     pub fn set_title(&self, title: &NSString) {
         let _: () = unsafe { msg_send![&self.0, setTitle:title.as_ref().as_ref()] };
+    }
+
+    pub fn set_max_size(&self, size: CGSize) {
+        let _: () = unsafe { msg_send![&self.0, setMaxSize:size] };
+    }
+
+    pub fn set_min_size(&self, size: CGSize) {
+        let _: () = unsafe { msg_send![&self.0, setMinSize:size] };
     }
 
     /// Set the content view
